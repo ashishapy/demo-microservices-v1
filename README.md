@@ -77,13 +77,6 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
   #docker -H=tcp://192.168.33.13:2375 run --restart=unless-stopped -d <PlaceAllPorts> -h consul3 --name consul3 progrium/consul -server -advertise 192.168.33.13 -join 192.168.33.11
   ```
 
-  Verify:
-  
-  ```
-  docker exec -it consul<1/2/3> bash
-  consul members
-  ```
-
 5. Build Swarm Managers:
 
   ```
@@ -166,7 +159,7 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
 7. Validating / Checking
    
    ```
-   export DOCKER_HOST="tcp://192.168.33.11:3375"
+   export DOCKER_HOST="tcp://192.168.33.11:2375"
    
    docker exec -it consul bash
    consul members
