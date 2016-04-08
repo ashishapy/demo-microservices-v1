@@ -32,7 +32,7 @@ Inspired from https://github.com/docker/swarm-microservice-demo-v1
   node03: t2.micro / 192.168.33.200
   ```
 
-  AMI for all:  ami-dc8772bc in region US-WEST-2 only
+  AMI for all:  ami-a113c6c2 in region ap-southeast-1 only
   SG for all:  SG-WideOpen
   All have public IPs.
 
@@ -111,7 +111,7 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
   ```
   
   ```
-  docker -H=tcp://192.168.33.20:2375 run -d --name registrator -h registrator -v /var/run/docker.sock:/tmp/docker.sock gliderlabs/registrator:latest consul://192.168.33.11:8500/
+  docker -H=tcp://192.168.33.20:2375 run -d --name registrator -h registrator -v /var/run/docker.sock:/tmp/docker.sock gliderlabs/registrator:latest consul://192.168.33.20:8500/
   ```
   
   **Node02:**
@@ -119,11 +119,11 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
   ```
   docker -H=tcp://192.168.33.21:2375 run --restart=unless-stopped -d -h consul-agt2 --name consul-agt2 -v /mnt:/data \
   -p 8300:8300 \
-	-p 8301:8301 -p 8301:8301/udp \
-	-p 8302:8302 -p 8302:8302/udp \
-	-p 8400:8400 \
-	-p 8500:8500 \
-	-p 8600:8600/udp \
+  -p 8301:8301 -p 8301:8301/udp \
+  -p 8302:8302 -p 8302:8302/udp \
+  -p 8400:8400 \
+  -p 8500:8500 \
+  -p 8600:8600/udp \
   progrium/consul -rejoin -advertise 192.168.33.21 -join 192.168.33.11
   ```
   
@@ -132,7 +132,7 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
   ```
   
   ```
-  docker -H=tcp://192.168.33.21:2375 run -d --name registrator -h registrator -v /var/run/docker.sock:/tmp/docker.sock gliderlabs/registrator:latest consul://192.168.33.11:8500/
+  docker -H=tcp://192.168.33.21:2375 run -d --name registrator -h registrator -v /var/run/docker.sock:/tmp/docker.sock gliderlabs/registrator:latest consul://192.168.33.21:8500/
   ```
   
   **Node03:**
@@ -140,11 +140,11 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
   ```
   docker -H=tcp://192.168.33.200:2375 run --restart=unless-stopped -d -h consul-agt3 --name consul-agt3 -v /mnt:/data \
   -p 8300:8300 \
-	-p 8301:8301 -p 8301:8301/udp \
-	-p 8302:8302 -p 8302:8302/udp \
-	-p 8400:8400 \
-	-p 8500:8500 \
-	-p 8600:8600/udp \
+  -p 8301:8301 -p 8301:8301/udp \
+  -p 8302:8302 -p 8302:8302/udp \
+  -p 8400:8400 \
+  -p 8500:8500 \
+  -p 8600:8600/udp \
   progrium/consul -rejoin -advertise 192.168.33.200 -join 192.168.33.11
   ```
   
@@ -153,7 +153,7 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
   ```
   
   ```
-  docker -H=tcp://192.168.33.200:2375 run -d --name registrator -h registrator -v /var/run/docker.sock:/tmp/docker.sock gliderlabs/registrator:latest consul://192.168.33.11:8500/
+  docker -H=tcp://192.168.33.200:2375 run -d --name registrator -h registrator -v /var/run/docker.sock:/tmp/docker.sock gliderlabs/registrator:latest consul://192.168.33.200:8500/
   ```
 
 7. Validating / Checking
