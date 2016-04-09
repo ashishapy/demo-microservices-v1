@@ -187,9 +187,19 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
 
 7. Validating / Checking
    
+   Use Docker Deamon (manager):
+   
    ```
    export DOCKER_HOST="tcp://192.168.33.11:2375"
+   docker ps
+   ```
    
+   ```
+   docker logs consul<1/2/3>
+   docker logs swarmgr<1/2/3>
+   ```
+   
+   ```
    docker exec -it consul bash
    consul members
    ```
@@ -197,16 +207,20 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
    ```
    curl http://192.168.33.11:8500/v1/catalog/nodes | python -m json.tool
    ```
-   
-   ```
-   docker logs consul<1/2/3>
-   docker logs swarmgr<1/2/3>
-   ```
 
    ```
    curl http://192.168.33.11:8500/v1/catalog/services | python -m json.tool
    ```
 
+   Switch to Docker Swarm Manager:
+   
+   ```
+   export DOCKER_HOST="tcp://192.168.33.11:3375"
+   docker ps
+   docker info
+   ```
+   
+   
 8. Create overlay network
 
    ```
