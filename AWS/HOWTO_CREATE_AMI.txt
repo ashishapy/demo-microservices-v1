@@ -1,4 +1,4 @@
-How I Created AMI "ami-bb90e5db" (Swarm-ready Ubuntu trusty):
+How I Created AMI "ami-a113c6c2" (Swarm-ready Ubuntu trusty):
 
 	- Started with Ubuntu 14.04 box (ami-56f59e36)
 	- Run these commands:
@@ -9,17 +9,20 @@ How I Created AMI "ami-bb90e5db" (Swarm-ready Ubuntu trusty):
 		sudo apt-get -y install linux-image-extra-$(uname -r) docker-engine linux-image-generic-lts-utopic
 		sudo reboot
 		sudo usermod -a -G docker ubuntu   ## add ubuntu user to docker group
+    
+  - add ```DOCKER_OPTS="-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"``` in /etc/default/docker file. (not production recommended)
+  
 		sudo service docker restart
 
-	- Removed the   ``/etc/docker/key.json` file
+	- Removed the   ```/etc/docker/key.json``` file
 
 	- Now in AWS console do:  Instances and select your instance -> Actions -> Image -> Create Image
 
-	- My customized Ubuntu AMI:  ami-bb90e5db
+	- My customized Ubuntu AMI:  ami-a113c6c2
 
-	- The CloudFormation template will now rely on this new "ami-bb90e5db" that already has docker and kernel 3.16 installed installed.
+	- The CloudFormation template will now rely on this new "ami-a113c6c2" that already has docker and kernel 3.16 installed installed.
 
-	* Note that with ami-bb90e5db you must reset the Engine ID on each instance using a user-data bash script like this:
+	* Note that with ami-a113c6c2 you must reset the Engine ID on each instance using a user-data bash script like this:
 		sudo service docker stop
 		sudo rm -f /etc/docker/key.json
 		sudo service docker start

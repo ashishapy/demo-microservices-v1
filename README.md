@@ -72,9 +72,38 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
   High-availability:
   
   ```
-  #docker -H=tcp://192.168.33.11:2375 run --restart=unless-stopped -d <PlaceAllPorts> -h consul1 --name consul1 progrium/consul -server -advertise 192.168.33.11 -bootstrap-expect 3
-  #docker -H=tcp://192.168.33.12:2375 run --restart=unless-stopped -d <PlaceAllPorts> -h consul2 --name consul2 progrium/consul -server -advertise 192.168.33.12 -join 192.168.33.11
-  #docker -H=tcp://192.168.33.13:2375 run --restart=unless-stopped -d <PlaceAllPorts> -h consul3 --name consul3 progrium/consul -server -advertise 192.168.33.13 -join 192.168.33.11
+  #docker -H=tcp://192.168.33.11:2375 run --restart=unless-stopped -d \
+  -p 192.168.33.11:8300:8300 \
+  -p 192.168.33.11:8301:8301 \
+  -p 192.168.33.11:8301:8301/udp \
+  -p 192.168.33.11:8302:8302 \
+  -p 192.168.33.11:8302:8302/udp \
+  -p 192.168.33.11:8400:8400 \
+  -p 192.168.33.11:8500:8500 \
+  -p 172.17.0.1:53:53/udp \
+  -h consul1 --name consul1 progrium/consul -server -advertise 192.168.33.11 -bootstrap-expect 3
+  
+  #docker -H=tcp://192.168.33.12:2375 run --restart=unless-stopped -d \
+  -p 192.168.33.11:8300:8300 \
+  -p 192.168.33.11:8301:8301 \
+  -p 192.168.33.11:8301:8301/udp \
+  -p 192.168.33.11:8302:8302 \
+  -p 192.168.33.11:8302:8302/udp \
+  -p 192.168.33.11:8400:8400 \
+  -p 192.168.33.11:8500:8500 \
+  -p 172.17.0.1:53:53/udp \
+  -h consul2 --name consul2 progrium/consul -server -advertise 192.168.33.12 -join 192.168.33.11
+  
+  #docker -H=tcp://192.168.33.13:2375 run --restart=unless-stopped -d \
+  -p 192.168.33.11:8300:8300 \
+  -p 192.168.33.11:8301:8301 \
+  -p 192.168.33.11:8301:8301/udp \
+  -p 192.168.33.11:8302:8302 \
+  -p 192.168.33.11:8302:8302/udp \
+  -p 192.168.33.11:8400:8400 \
+  -p 192.168.33.11:8500:8500 \
+  -p 172.17.0.1:53:53/udp \
+  -h consul3 --name consul3 progrium/consul -server -advertise 192.168.33.13 -join 192.168.33.11
   ```
 
 5. Build Swarm Managers:
@@ -187,11 +216,3 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
 
 9. Set up application layer containers:
 
-  ```
-  git clone https://github.com/docker/example-voting-app.git     # (this repo)
-  cd example-voting-app
-  ```
-
-  ```
-  docker-compose up
-  ```
