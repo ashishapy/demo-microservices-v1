@@ -12,10 +12,10 @@ Inspired from https://github.com/docker/swarm-microservice-demo-v1
 
   ```
   VPC Name:  SwarmCluster
-  VPC Network:  192.168.0.0/16
+  IP CIDR block:  192.168.0.0/16
   Subnet:  "PublicSubnet", 192.168.33.0/24
   ```
-  (after create, make sure to enable "Auto-Assign Public IP")
+  (after create, make sure to enable "Auto-Assign Public IP" for the subnet)
   
 2.  Run CloudFormation template in this repo.  
 
@@ -32,7 +32,7 @@ Inspired from https://github.com/docker/swarm-microservice-demo-v1
   node03: t2.micro / 192.168.33.200
   ```
 
-  AMI for all:  ami-a113c6c2 in region ap-southeast-1 only
+  AMI for all:  ami-ba0bded9 in region ap-southeast-1 only
   SG for all:  SG-WideOpen
   All have public IPs.
 
@@ -220,6 +220,11 @@ Replace ~/.ssh/id_rsa_aws.pem with the private key corresponding to the public k
    docker info
    ```
    
+   Consul through Browser:
+    
+    Open browser and enter <manager_public_ip>:8500 
+    
+
    
 8. Create overlay network
 

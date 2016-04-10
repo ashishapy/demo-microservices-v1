@@ -1,0 +1,48 @@
+version: '2'
+
+services:
+  voting-app:
+    image: vieux/demo-vote
+    ports:
+      - "80"
+    networks:
+      - vote
+    labels:
+      com.docker.swarm.reschedule-policies: '["on-node-failure"]'
+
+  redis:
+    image: redis:alpine
+    networks:
+      - vote
+    labels:
+      com.docker.swarm.constraints: '["node==node01"]'
+
+  worker:
+    image: vieux/demo-worker
+    networks:
+      - vote
+    labels:
+      com.docker.swarm.reschedule-policies: '["on-node-failure"]'
+
+  db:
+    image: postgres:9.4
+    networks:
+      - vote
+      - result
+    labels:
+      com.docker.swarm.constraints: '["node==node01"]'
+
+  result-app:
+    image: vieux/demo-result
+    ports:
+      - "80"
+    networks:
+      - result
+    labels:
+      com.docker.swarm.reschedule-policies: '["on-node-failure"]'
+
+networks:
+  vote:
+    driver: overlay
+  result:
+    driver: overlay
